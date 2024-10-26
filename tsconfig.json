@@ -27,6 +27,8 @@
 		"allowUnreachableCode": false,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"strictPropertyInitialization": true
+		"strictPropertyInitialization": true,
+		"experimentalDecorators": true, // Enable this
+		"emitDecoratorMetadata": true // Enable this
 	}
 }

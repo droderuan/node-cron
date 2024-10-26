@@ -209,6 +209,9 @@ export class CronJob<OC extends CronOnCompleteCommand | null = null, C = null> {
 	}
 
 	start() {
+		console.log('\n');
+
+		console.log('running', this.running);
 		if (this.running) {
 			return;
 		}
@@ -217,6 +220,10 @@ export class CronJob<OC extends CronOnCompleteCommand | null = null, C = null> {
 		let timeout = this.cronTime.getTimeout();
 		let remaining = 0;
 		let startTime: number;
+
+		console.log('currentDate', new Date().toString());
+		console.log('sendAt', this.cronTime.sendAt());
+		console.log('timeout', timeout);
 
 		const setCronTimeout = (t: number) => {
 			startTime = Date.now();
@@ -231,8 +238,11 @@ export class CronJob<OC extends CronOnCompleteCommand | null = null, C = null> {
 		const callbackWrapper = () => {
 			const diff = startTime + timeout - Date.now();
 
+			console.log('diff', diff);
+
 			if (diff > 0) {
 				let newTimeout = this.cronTime.getTimeout();
+				console.log('newTimeout', newTimeout);
 
 				if (newTimeout > diff) {
 					newTimeout = diff;
@@ -245,6 +255,8 @@ export class CronJob<OC extends CronOnCompleteCommand | null = null, C = null> {
 			// again. This processing might make us miss the deadline by a few ms
 			// times the number of sleep sessions. Given a MAXDELAY of almost a
 			// month, this should be no issue.
+			console.log('remaining', remaining);
+
 			if (remaining) {
 				if (remaining > MAXDELAY) {
 					remaining -= MAXDELAY;
